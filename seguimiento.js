@@ -191,7 +191,7 @@
             const button = document.createElement('button');
             button.type = 'button'; button.className = 'btn seguimiento-launch';
             button.textContent = t('launcher');
-            button.setAttribute('data-bind', 'click: openSeguimiento, text: seguimientoLabel');
+            button.setAttribute('data-bind', 'click: openSeguimiento, text: seguimientoLabel()');
             template.content.querySelector('.b-content')?.prepend(button);
         }
         if (view.viewModelTemplateID === 'MailMessageView') {
@@ -208,7 +208,7 @@
             const button = document.createElement('button');
             button.type = 'button'; button.className = 'btn seguimiento-message';
             button.textContent = t('launcher');
-            button.setAttribute('data-bind', 'click: trackSeguimiento, enable: messageVisible, text: seguimientoLabel');
+            button.setAttribute('data-bind', 'click: trackSeguimiento, enable: messageVisible, text: seguimientoLabel()');
             template.content.querySelector('.messageItemHeader')?.after(button);
         }
     });

@@ -36,11 +36,26 @@ with sync_playwright() as p:
     page.add_style_tag(path=str(root / 'seguimiento.css'))
     page.add_script_tag(path=str(root / 'seguimiento.js'))
     page.evaluate("""() => {
-        const view={viewModelTemplateID:'MailFolderList'};
-        dispatchEvent(new CustomEvent('rl-view-model.create',{detail:view}));
-        view.openSeguimiento();
+        const sandbox=document.createElement('div');
+        sandbox.id='seguimiento-demo-launchers'; sandbox.style.display='none'; document.body.append(sandbox);
+        for (const id of ['MailFolderList','MailMessageView']) {
+            const view={viewModelTemplateID:id,message:()=>null,messageVisible:ko.observable(true)};
+            dispatchEvent(new CustomEvent('rl-view-model.create',{detail:view}));
+            const selector=id==='MailFolderList'?'.seguimiento-launch':'.seguimiento-message';
+            const button=document.getElementById(id).content.querySelector(selector).cloneNode(true);
+            sandbox.append(button);
+            // SnappyMail exposes per-node bindings, not Knockout's applyBindings.
+            // Evaluate the actual template expression, so a function-valued text
+            // binding fails this regression check just as it does in the UI.
+            const expression=button.getAttribute('data-bind').split('text: ')[1];
+            ko.applyBindingAccessorsToNode(button, {
+                text:()=>new Function('seguimientoLabel','return ('+expression+')')(view.seguimientoLabel)
+            },view);
+            if (id==='MailFolderList') view.openSeguimiento();
+        }
     }""")
     page.wait_for_function("document.querySelectorAll('.seguimiento-item').length === 1")
+    assert page.locator('#seguimiento-demo-launchers button').all_text_contents() == ['Seguimiento','Seguimiento']
     page.locator('.seguimiento-item').get_by_role('button', name='Editar', exact=True).click()
     page.locator('.seguimiento-editor textarea').fill('Revisar la respuesta antes de la sesión.')
     page.get_by_role('button', name='Guardar seguimiento', exact=True).click()
@@ -53,6 +68,7 @@ with sync_playwright() as p:
     page.locator('.seguimiento-panel').screenshot(path=str(root / 'docs/demo-mobile.png'))
     page.evaluate("() => {document.documentElement.lang='ca';}")
     page.get_by_role('heading',name='Seguiment del correu',exact=True).wait_for()
+    assert page.locator('#seguimiento-demo-launchers button').all_text_contents() == ['Seguiment','Seguiment']
     assert page.locator('.seguimiento-item .seguimiento-remove').inner_text() == 'Treu del seguiment'
     assert page.locator('.seguimiento-editor textarea').get_attribute('placeholder') == 'Per exemple: demanar la confirmació de dates'
     assert page.locator('.seguimiento-editor select').input_value() == 'esperar'
@@ -63,6 +79,7 @@ with sync_playwright() as p:
     page.locator('.seguimiento-panel').screenshot(path=str(root / 'docs/demo-ca-desktop.png'))
     page.evaluate("() => {document.documentElement.lang='es';}")
     page.get_by_role('heading',name='Seguimiento del correo',exact=True).wait_for()
+    assert page.locator('#seguimiento-demo-launchers button').all_text_contents() == ['Seguimiento','Seguimiento']
     assert page.locator('.seguimiento-panel .alert-success').inner_text() == 'Seguimiento guardado.'
     page.locator('.seguimiento-editor select').select_option('resuelto')
     page.get_by_role('button',name='Guardar seguimiento',exact=True).click()

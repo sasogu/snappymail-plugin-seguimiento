@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.10 — 2026-10-16
+
+- Fix the sidebar and message buttons showing the translation function's source
+  instead of Seguimiento/Seguiment. Evaluate the text binding explicitly.
+- Exercise both button bindings with SnappyMail's actual Knockout implementation,
+  including Spanish/Catalan language changes, and check the live sidebar label.
+
 ## 0.1.9 — 2026-10-16
 
 - Add Catalan throughout the interface: launchers, editor, filters, states,

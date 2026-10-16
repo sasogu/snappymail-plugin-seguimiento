@@ -29,6 +29,8 @@ with sync_playwright() as p:
         if language:
             page.evaluate('language => {document.documentElement.lang=language;}', language)
         catalan = page.evaluate("document.documentElement.lang.toLowerCase().split(/[-_]/)[0] === 'ca'")
+        page.wait_for_function("() => ['Seguimiento','Seguiment'].includes(document.querySelector('.seguimiento-launch')?.textContent)")
+        assert page.locator('.seguimiento-launch').inner_text() == ('Seguiment' if catalan else 'Seguimiento')
         edit_label = 'Edita' if catalan else 'Editar'
         for index in range(2):
             marker = 'Synthetic follow-up ' + uuid.uuid4().hex

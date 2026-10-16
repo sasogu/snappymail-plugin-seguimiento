@@ -1,4 +1,15 @@
-# Verification — 0.1.9, 2026-10-16
+# Verification — 0.1.10, 2026-10-16
+
+## Launcher text regression
+
+- Both sidebar and message button expressions are evaluated with SnappyMail's
+  actual Knockout text binding in the synthetic browser fixture. Their labels
+  must read Seguimiento → Seguiment → Seguimiento across language changes.
+- Live integration verifies the sidebar label before testing Catalan validation
+  and direct removal using temporary synthetic follow-ups. No email is opened
+  or modified.
+- The previous tests checked the label helper and popup text but did not bind
+  the launcher text expressions; this regression check covers that gap.
 
 ## Catalan interface
 
