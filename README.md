@@ -4,7 +4,8 @@ A standalone SnappyMail plugin for keeping track of messages you need to answer,
 replies you are waiting for, review dates and short notes. No core modifications.
 Developed and tested against **SnappyMail 2.38.2**. AGPL-3.0.
 
-The current interface is **Spanish**. This is manual follow-up tracking for the
+The interface supports **Spanish and Catalan**, following the language selected
+in SnappyMail. Other languages keep the existing Spanish fallback. This is manual follow-up tracking for the
 active account; it does not detect replies or send notifications. It works
 independently of [Unified Inbox](https://github.com/sasogu/snappymail-plugin-unified-inbox).
 
@@ -61,7 +62,8 @@ differ around midnight.
 ## Español
 
 Plugin independiente para gestionar **correos por responder**, **respuestas en
-espera**, **fechas de revisión** y **notas**. La interfaz está en español.
+espera**, **fechas de revisión** y **notas**. La interfaz está en español y catalán y sigue el idioma seleccionado en
+SnappyMail, incluidos los botones, filtros, avisos y errores de validación.
 
 Descomprime el ZIP de la publicación en la carpeta de plugins de SnappyMail,
 conservando el nombre `seguimiento`, y actívalo desde administración. Requiere
@@ -93,7 +95,8 @@ screenshots contain fictitious messages only. No mail is sent, opened or changed
 For an opt-in live integration check, set `SEGUIMIENTO_URL`,
 `SEGUIMIENTO_EMAIL` and `SEGUIMIENTO_PASSWORD_FILE` (a protected file whose first
 line contains the existing app password), then run `python3 tests/browser.py`.
-It creates temporary synthetic follow-ups, exercises direct removal from the
+Optionally set `SEGUIMIENTO_TEST_LANGUAGE=ca` to check Catalan in the current test
+tab without changing saved language preferences. It creates temporary synthetic follow-ups, exercises direct removal from the
 list on desktop/mobile and cleans up. It does not open or modify messages,
 save screenshots, or log private response data.
 
@@ -102,3 +105,14 @@ See [verification](docs/VERIFICATION.md) and [changelog](CHANGELOG.md).
 ![Desktop demo with synthetic metadata](docs/demo-desktop.png)
 
 ![Mobile demo with synthetic metadata](docs/demo-mobile.png)
+
+## Català
+
+Tria **Català** al selector d’idioma de SnappyMail i el complement mostrarà
+**Seguiment**. Inclou els estats, filtres, dates de revisió, notes, botons i avisos.
+El canvi d’idioma manté els seguiments existents. **Treu del seguiment** retira
+només la marca i conserva el correu. El complement necessita que la instal·lació
+de SnappyMail tingui disponible l’idioma català; no instal·la la traducció del
+nucli. Les variants `ca-ES` i `ca_ES` també es reconeixen.
+
+![Catalan demo with synthetic metadata](docs/demo-ca-desktop.png)

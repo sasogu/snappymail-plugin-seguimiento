@@ -25,6 +25,11 @@ with sync_playwright() as p:
         page.locator('input[name=Password]').fill(Path(os.environ['SEGUIMIENTO_PASSWORD_FILE']).read_text().splitlines()[0].strip())
         page.get_by_role('button',name='Acceder',exact=True).click()
         page.locator('.seguimiento-launch').wait_for()
+        language = os.environ.get('SEGUIMIENTO_TEST_LANGUAGE')
+        if language:
+            page.evaluate('language => {document.documentElement.lang=language;}', language)
+        catalan = page.evaluate("document.documentElement.lang.toLowerCase().split(/[-_]/)[0] === 'ca'")
+        edit_label = 'Edita' if catalan else 'Editar'
         for index in range(2):
             marker = 'Synthetic follow-up ' + uuid.uuid4().hex
             result = rpc('SeguimientoSave', {'message_id':'<' + uuid.uuid4().hex + '@example.invalid>',
@@ -33,10 +38,15 @@ with sync_playwright() as p:
             assert result['ok']
             created.append(result['item'])
         page.locator('.seguimiento-launch').click()
+        page.get_by_role('heading', name='Seguiment del correu' if catalan else 'Seguimiento del correo', exact=True).wait_for()
         first = page.locator('.seguimiento-item').filter(has_text=created[0]['subject'])
         second = page.locator('.seguimiento-item').filter(has_text=created[1]['subject'])
-        second.get_by_role('button',name='Editar',exact=True).click()
+        second.get_by_role('button',name=edit_label,exact=True).click()
         page.locator('.seguimiento-editor').wait_for(state='visible')
+        if catalan:
+            page.evaluate("() => {const v=ko.dataFor(document.querySelector('.seguimiento-panel'));v.due('2026-02-30');v.save();}")
+            page.wait_for_function("document.querySelector('.seguimiento-panel .alert-error')?.textContent === 'Data de revisió no vàlida'")
+            print('OK: validación del servidor traducida al catalán')
         first.locator('.seguimiento-remove').click()
         first.wait_for(state='detached')
         assert second.count() == 1

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.9 — 2026-10-16
+
+- Add Catalan throughout the interface: launchers, editor, filters, states,
+  placeholders, empty views, dates, notifications and validation errors.
+- Follow SnappyMail's selected language, including changes without reloading.
+  Recognize Catalan regional variants and preserve Spanish as the fallback.
+- Preserve stored states, notes and existing follow-ups across language changes.
+- Translate known server errors and use a generic message for unknown failures.
+- Verify Spanish/Catalan behavior with synthetic and live browser tests.
+
 ## 0.1.8 — 2026-10-16
 
 - Add **Quitar seguimiento** beside **Editar** for direct removal from the list,

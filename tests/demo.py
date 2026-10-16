@@ -10,7 +10,7 @@ with sync_playwright() as p:
     page = browser.new_page(viewport={'width': 1280, 'height': 900}, bypass_csp=True)
     page.goto(os.environ.get('SEGUIMIENTO_DEMO_URL', 'http://127.0.0.1:8100/'), wait_until='networkidle')
     page.wait_for_function("typeof rl?.pluginRemoteRequest === 'function'")
-    page.evaluate("() => rl.settings.set('clientLanguage', 'es')")
+    page.evaluate("() => {rl.settings.set('clientLanguage', 'es'); document.documentElement.lang='es';}")
     page.evaluate("""html => {
         const template = document.createElement('template');
         template.id = 'PopupsSeguimiento'; template.innerHTML = html;
@@ -51,6 +51,19 @@ with sync_playwright() as p:
     bounds=page.locator('.seguimiento-panel').bounding_box()
     assert bounds['x'] >= 0 and bounds['width'] <= 390
     page.locator('.seguimiento-panel').screenshot(path=str(root / 'docs/demo-mobile.png'))
+    page.evaluate("() => {document.documentElement.lang='ca';}")
+    page.get_by_role('heading',name='Seguiment del correu',exact=True).wait_for()
+    assert page.locator('.seguimiento-item .seguimiento-remove').inner_text() == 'Treu del seguiment'
+    assert page.locator('.seguimiento-editor textarea').get_attribute('placeholder') == 'Per exemple: demanar la confirmació de dates'
+    assert page.locator('.seguimiento-editor select').input_value() == 'esperar'
+    page.get_by_role('button',name='Desa el seguiment',exact=True).click()
+    page.wait_for_function("document.querySelector('.seguimiento-panel .alert-success')?.textContent === 'Seguiment desat.'")
+    page.locator('.seguimiento-panel').screenshot(path=str(root / 'docs/demo-ca-mobile.png'))
+    page.set_viewport_size({'width':1280,'height':900})
+    page.locator('.seguimiento-panel').screenshot(path=str(root / 'docs/demo-ca-desktop.png'))
+    page.evaluate("() => {document.documentElement.lang='es';}")
+    page.get_by_role('heading',name='Seguimiento del correo',exact=True).wait_for()
+    assert page.locator('.seguimiento-panel .alert-success').inner_text() == 'Seguimiento guardado.'
     page.locator('.seguimiento-editor select').select_option('resuelto')
     page.get_by_role('button',name='Guardar seguimiento',exact=True).click()
     page.wait_for_function("document.querySelectorAll('.seguimiento-item').length === 0")
@@ -60,4 +73,4 @@ with sync_playwright() as p:
     page.wait_for_function("document.querySelectorAll('.seguimiento-item').length === 0")
     assert page.locator('.seguimiento-editor').is_hidden()
     browser.close()
-    print('OK: synthetic sidebar, edit/save, filters, removal and desktop/mobile screenshots; no real mail access')
+    print('OK: synthetic Spanish/Catalan live switching, edit/save, filters, removal and desktop/mobile screenshots; no real mail access')

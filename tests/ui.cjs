@@ -6,17 +6,18 @@ const observable = initial => {
     let value = initial;
     return function (...args) { if (args.length) value = args[0]; return value; };
 };
-let Popup, rpc;
+let Popup, rpc, languageChanged;
+const documentRoot = {lang:'es'};
 class Base {
     addObservables(values) { for (const [key,value] of Object.entries(values)) this[key] = observable(value); }
     static showModal() { Popup = new this(); Popup.beforeShow(); }
 }
 vm.runInNewContext(fs.readFileSync(__dirname + '/../seguimiento.js','utf8'), {
-    window: {rl:true}, ko: {observable,computed:fn=>fn},
+    window: {rl:true, MutationObserver: class { constructor(callback) {languageChanged=callback;} observe() {} }}, ko: {observable,computed:fn=>fn},
     rl: {adminArea:()=>false, pluginPopupView:Base, pluginRemoteRequest(callback,action,params) {
         Promise.resolve().then(()=>rpc(action,params)).then(result=>callback(0,{Result:result}),()=>callback(1));
     }},
-    document: {getElementById:()=>({content:{querySelector:()=>({prepend(){}})}}),createElement:()=>({setAttribute(){}})},
+    document: {documentElement:documentRoot, getElementById:()=>({content:{querySelector:()=>({prepend(){}})}}),createElement:()=>({setAttribute(){}})},
     addEventListener:(name,fn)=>{handlers[name]=fn;}
 });
 (async () => {
@@ -65,5 +66,25 @@ vm.runInNewContext(fs.readFileSync(__dirname + '/../seguimiento.js','utf8'), {
     assert.equal(Popup.current.id,'second');
     assert.ok(Popup.error());
     console.log('OK: direct row removal preserves unrelated editor; unconfirmed removal preserves rows');
+    documentRoot.lang = 'ca-ES'; languageChanged();
+    assert.equal(Popup.t('title'),'Seguiment del correu');
+    assert.equal(view.seguimientoLabel(),'Seguiment');
+    assert.equal(Popup.label({state:'responder'}),'Per respondre');
+    assert.equal(Popup.formattedDate({due:''}),'Sense data');
+    assert.equal(Popup.current.state,'esperar');
+    Popup.noticeKey('saved');
+    assert.equal(Popup.notice(),'Seguiment desat.');
+    rpc = () => ({ok:false,error:'Fecha de revisión no válida'});
+    await Popup.load();
+    assert.equal(Popup.error(),'Data de revisió no vàlida');
+    rpc = () => ({ok:false,error:'Unknown upstream connection details'});
+    await Popup.load();
+    assert.equal(Popup.error(),'No s’ha pogut completar l’operació. Comprova la sessió i la connexió.');
+    documentRoot.lang = 'es'; languageChanged();
+    assert.equal(Popup.notice(),'Seguimiento guardado.');
+    assert.equal(view.seguimientoLabel(),'Seguimiento');
+    documentRoot.lang = 'fr'; languageChanged();
+    assert.equal(Popup.t('title'),'Seguimiento del correo');
+    console.log('OK: Catalan variants, live language changes, translated notices/errors and Spanish fallback');
     console.log('OK: follow-up save, filters, resolved state, failure recovery and removal');
 })().catch(error=>{console.error(error);process.exitCode=1;});

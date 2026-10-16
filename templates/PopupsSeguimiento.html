@@ -1,71 +1,71 @@
 <div class="seguimiento-panel">
     <div class="modal-header">
-        <button type="button" class="close" data-bind="click: close" aria-label="Cerrar">×</button>
-        <h2>Seguimiento del correo</h2>
-        <p class="seguimiento-subtitle">Lo que tienes que hacer y las respuestas que esperas.</p>
+        <button type="button" class="close" data-bind="click: close, attr: {'aria-label': t('close')}">×</button>
+        <h2 data-bind="text: t('title')"></h2>
+        <p class="seguimiento-subtitle" data-bind="text: t('subtitle')"></p>
     </div>
     <div class="modal-body">
         <div class="seguimiento-summary">
-            <span>Cuenta: <strong data-bind="text: account"></strong></span>
-            <span><strong data-bind="text: activeCount"></strong> activos · <strong data-bind="text: dueCount"></strong> para revisar</span>
+            <span><span data-bind="text: t('account')"></span> <strong data-bind="text: account"></strong></span>
+            <span><strong data-bind="text: activeCount"></strong> <span data-bind="text: t('active')"></span> · <strong data-bind="text: dueCount"></strong> <span data-bind="text: t('reviewCount')"></span></span>
         </div>
         <p class="alert alert-error" role="alert" data-bind="visible: error, text: error"></p>
         <p class="alert alert-success" role="status" data-bind="visible: notice, text: notice"></p>
         <section class="seguimiento-editor" data-bind="visible: editing">
-            <h3 data-bind="text: subject"></h3>
+            <h3 data-bind="text: subject() || t('subject')"></h3>
             <p class="seguimiento-subtitle" data-bind="text: sender"></p>
             <div class="seguimiento-fields">
-                <label>Estado
+                <label><span data-bind="text: t('state')"></span>
                     <select data-bind="value: state, disable: busy">
-                        <option value="responder">Tengo que responder</option>
-                        <option value="esperar">Espero respuesta</option>
-                        <option value="resuelto">Resuelto</option>
+                        <option value="responder" data-bind="text: t('needReply')"></option>
+                        <option value="esperar" data-bind="text: t('waitingReply')"></option>
+                        <option value="resuelto" data-bind="text: t('resuelto')"></option>
                     </select>
                 </label>
-                <label>Fecha de revisión
+                <label><span data-bind="text: t('due')"></span>
                     <input type="date" data-bind="value: due, disable: busy">
                 </label>
             </div>
-            <label>Próxima acción o nota
-                <textarea rows="2" maxlength="2000" placeholder="Por ejemplo: reclamar la confirmación de fechas" data-bind="value: note, disable: busy"></textarea>
+            <label><span data-bind="text: t('note')"></span>
+                <textarea rows="2" maxlength="2000" data-bind="value: note, disable: busy, attr: {placeholder: t('placeholder')}"></textarea>
             </label>
-            <button type="button" class="btn btn-primary" data-bind="click: save, disable: busy">Guardar seguimiento</button>
-            <button type="button" class="btn" data-bind="click: remove, disable: busy">Quitar seguimiento</button>
+            <button type="button" class="btn btn-primary" data-bind="click: save, disable: busy, text: t('save')"></button>
+            <button type="button" class="btn" data-bind="click: remove, disable: busy, text: t('remove')"></button>
         </section>
         <div class="seguimiento-filters">
-            <label>Mostrar
+            <label><span data-bind="text: t('show')"></span>
                 <select data-bind="value: filter">
-                    <option value="activos">Todos los activos</option>
-                    <option value="vencidos">Para revisar hoy o vencidos</option>
-                    <option value="responder">Por responder</option>
-                    <option value="esperar">Esperando respuesta</option>
-                    <option value="resuelto">Resueltos</option>
-                    <option value="todos">Todos, incluidos resueltos</option>
+                    <option value="activos" data-bind="text: t('filterActive')"></option>
+                    <option value="vencidos" data-bind="text: t('filterDue')"></option>
+                    <option value="responder" data-bind="text: t('responder')"></option>
+                    <option value="esperar" data-bind="text: t('filterWaiting')"></option>
+                    <option value="resuelto" data-bind="text: t('filterResolved')"></option>
+                    <option value="todos" data-bind="text: t('filterAll')"></option>
                 </select>
             </label>
-            <button type="button" class="btn" data-bind="click: load, disable: busy">Actualizar</button>
+            <button type="button" class="btn" data-bind="click: load, disable: busy, text: t('refresh')"></button>
         </div>
-        <p class="seguimiento-empty" data-bind="visible: !visibleItems().length &amp;&amp; !busy()">No hay seguimientos en esta vista. Abre un mensaje y pulsa «Seguimiento» para añadirlo.</p>
+        <p class="seguimiento-empty" data-bind="visible: !visibleItems().length &amp;&amp; !busy(), text: t('empty')"></p>
         <div class="seguimiento-items" data-bind="foreach: visibleItems">
             <article class="seguimiento-item" data-bind="css: { 'seguimiento-due': $root.isDue($data) }">
                 <div class="seguimiento-item-meta">
                     <span class="seguimiento-badge" data-bind="text: $root.label($data)"></span>
                     <span data-bind="text: $root.formattedDate($data)"></span>
-                    <strong data-bind="visible: $root.isDue($data)">Revisar</strong>
+                    <strong data-bind="visible: $root.isDue($data), text: $root.t('review')"></strong>
                 </div>
-                <h3 data-bind="text: subject || '(Sin asunto)'"></h3>
+                <h3 data-bind="text: subject || $root.t('subject')"></h3>
                 <p class="seguimiento-subtitle" data-bind="text: sender"></p>
                 <p class="seguimiento-note" data-bind="text: note, visible: note"></p>
                 <div class="seguimiento-actions">
-                    <button type="button" class="btn" data-bind="click: $root.editItem, disable: $root.busy">Editar</button>
-                    <button type="button" class="btn seguimiento-remove" data-bind="click: $root.removeItem, disable: $root.busy">Quitar seguimiento</button>
-                    <button type="button" class="btn" data-bind="click: $root.openItem, disable: $root.busy">Abrir correo</button>
+                    <button type="button" class="btn" data-bind="click: $root.editItem, disable: $root.busy, text: $root.t('edit')"></button>
+                    <button type="button" class="btn seguimiento-remove" data-bind="click: $root.removeItem, disable: $root.busy, text: $root.t('remove')"></button>
+                    <button type="button" class="btn" data-bind="click: $root.openItem, disable: $root.busy, text: $root.t('open')"></button>
                 </div>
             </article>
         </div>
     </div>
     <div class="modal-footer">
-        <span class="seguimiento-footer-note">Las fechas indican cuándo revisar. No se envían avisos externos.</span>
-        <button type="button" class="btn" data-bind="click: close">Cerrar</button>
+        <span class="seguimiento-footer-note" data-bind="text: t('footer')"></span>
+        <button type="button" class="btn" data-bind="click: close, text: t('close')"></button>
     </div>
 </div>

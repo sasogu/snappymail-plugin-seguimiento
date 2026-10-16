@@ -1,4 +1,21 @@
-# Verification — 0.1.8, 2026-10-16
+# Verification — 0.1.9, 2026-10-16
+
+## Catalan interface
+
+- JavaScript tests cover regional variants, Spanish fallback, translated states,
+  notices and validation errors, and changes of language without page reload.
+  Unknown upstream error text is not displayed.
+- Synthetic Chromium tests switch the open editor from Spanish to Catalan and
+  back, retaining the selected state and note. Both languages can save and remove
+  follow-ups. Desktop/mobile captures contain synthetic metadata only.
+- Live integration against the existing installation verifies the actual Catalan
+  panel and a translated server-side invalid-date error, plus removal on desktop
+  and mobile while preserving the unrelated editor. Temporary synthetic records
+  are cleaned up; no mail is opened or modified and no saved language preference
+  is changed.
+- Existing PHP store/backend and JavaScript behavior tests pass.
+
+## Initial standalone distribution
 
 The plugin originated in an existing SnappyMail 2.38.2 installation where
 saving, updating, deleting and locating follow-ups were verified through the
@@ -23,6 +40,6 @@ Standalone distribution checks:
 - PHP and JavaScript syntax checks. Synthetic screenshots only.
 
 Compatibility with SnappyMail versions other than 2.38.2 is unverified.
-The UI is Spanish. Review dates use the browser local date in the interface;
+The UI supports Spanish and Catalan. Review dates use the browser local date in the interface;
 the stored overdue flag defaults to Europe/Madrid. Reply detection and external
 notifications are not implemented.

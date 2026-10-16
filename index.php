@@ -7,7 +7,7 @@ class SeguimientoPlugin extends \RainLoop\Plugins\AbstractPlugin
 {
     public const NAME = 'Seguimiento';
     public const AUTHOR = 'Samuel Soriano';
-    public const VERSION = '0.1.8';
+    public const VERSION = '0.1.9';
     public const RELEASE = '2026-10-16';
     public const REQUIRED = '2.38.2';
     public const CATEGORY = 'General';
