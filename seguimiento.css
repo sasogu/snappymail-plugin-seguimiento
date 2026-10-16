@@ -1,0 +1,32 @@
+#V-PopupsSeguimiento { max-width: 960px; }
+.seguimiento-panel { width: 100%; margin: 0 auto; display: flex; flex-direction: column; max-height: calc(100vh - 30px); max-height: calc(100dvh - 30px); }
+.seguimiento-panel .modal-header { padding: 18px 22px; border-bottom: 1px solid #a0a0a055; flex-shrink: 0; }
+.seguimiento-panel .modal-body { min-height: 0; overflow-y: auto; padding: 22px; flex: 1; }
+.seguimiento-panel .modal-footer { display: flex; justify-content: space-between; align-items: center; padding: 12px 22px; gap: 14px; border-top: 1px solid #a0a0a055; flex-shrink: 0; }
+.seguimiento-panel .modal-footer .btn { flex-shrink: 0; }
+.seguimiento-panel .alert-success { color: #24573e; background: #edf7f1; border-color: #c4e0cc; }
+.seguimiento-panel h2 { font-size: 23px; line-height: 1.3; margin: 0 0 7px; }
+.seguimiento-panel h3 { font-size: 16px; line-height: 1.45; margin: 5px 0; overflow-wrap: anywhere; }
+.seguimiento-subtitle { opacity: .72; margin: 4px 0 12px; overflow-wrap: anywhere; }
+.seguimiento-summary, .seguimiento-filters, .seguimiento-item-meta, .seguimiento-actions { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; }
+.seguimiento-summary { justify-content: space-between; padding-bottom: 15px; }
+.seguimiento-editor { padding: 18px; margin: 0 0 20px; border: 1px solid #8b9bb5; border-radius: 8px; }
+.seguimiento-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.seguimiento-panel label { display: flex; flex-direction: column; gap: 5px; margin-bottom: 12px; font-weight: 600; }
+.seguimiento-panel select, .seguimiento-panel input, .seguimiento-panel textarea { box-sizing: border-box; max-width: 100%; font-weight: normal; }
+.seguimiento-panel textarea { width: 100%; resize: vertical; }
+.seguimiento-filters { justify-content: space-between; border-bottom: 1px solid #a0a0a055; margin-bottom: 16px; }
+.seguimiento-item { border: 1px solid #a0a0a055; border-left: 4px solid #7b92b4; border-radius: 6px; padding: 16px; margin-bottom: 12px; }
+.seguimiento-due { border-left-color: #cb7117; }
+.seguimiento-item-meta { font-size: 12px; }
+.seguimiento-badge { background: #7b92b422; padding: 3px 8px; border-radius: 12px; font-weight: 600; }
+.seguimiento-note { white-space: pre-wrap; margin: 10px 0; overflow-wrap: anywhere; }
+.seguimiento-empty { padding: 30px 10px; text-align: center; opacity: .75; }
+.seguimiento-launch { display: block; width: calc(100% - 20px); margin: 10px; font-weight: 600; }
+.seguimiento-message { margin: 8px 20px; }
+.seguimiento-footer-note { font-size: 12px; max-width: 75%; text-align: left; opacity: .75; }
+@media (max-width: 600px) {
+    .seguimiento-fields { grid-template-columns: 1fr; gap: 0; }
+    .seguimiento-panel .modal-body { padding: 12px; }
+    .seguimiento-panel h2 { font-size: 20px; }
+}
