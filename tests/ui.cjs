@@ -79,7 +79,7 @@ vm.runInNewContext(fs.readFileSync(__dirname + '/../seguimiento.js','utf8'), {
     assert.equal(Popup.error(),'Data de revisió no vàlida');
     rpc = () => ({ok:false,error:'Unknown upstream connection details'});
     await Popup.load();
-    assert.equal(Popup.error(),'No s’ha pogut completar l’operació. Comprova la sessió i la connexió.');
+    assert.equal(Popup.error(),'No s’ha pogut completar l’operació. Comproveu la sessió i la connexió.');
     documentRoot.lang = 'es'; languageChanged();
     assert.equal(Popup.notice(),'Seguimiento guardado.');
     assert.equal(view.seguimientoLabel(),'Seguimiento');

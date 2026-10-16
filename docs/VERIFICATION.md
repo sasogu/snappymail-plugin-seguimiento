@@ -1,4 +1,13 @@
-# Verification — 0.1.10, 2026-10-16
+# Verification — 0.1.11, 2026-10-16
+
+## Linguistic review
+
+- Catalan explanations and errors consistently address the user with vós;
+  buttons retain short imperative commands, following Softcatalà style.
+- Synthetic browser checks verify `1 actiu` and retain Spanish/Catalan switching,
+  editor state, notices and removal behavior. All captures use fictitious data.
+- Existing PHP/JavaScript checks and the focused live Catalan integration pass.
+
 
 ## Launcher text regression
 

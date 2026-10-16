@@ -7,7 +7,7 @@
         es: {
             launcher: 'Seguimiento', title: 'Seguimiento del correo',
             subtitle: 'Lo que tienes que hacer y las respuestas que esperas.',
-            account: 'Cuenta:', active: 'activos', reviewCount: 'para revisar', state: 'Estado',
+            account: 'Cuenta:', active: 'activos', activeOne: 'activo', reviewCount: 'para revisar', state: 'Estado',
             responder: 'Por responder', esperar: 'En espera', resuelto: 'Resuelto',
             needReply: 'Tengo que responder', waitingReply: 'Espero respuesta',
             due: 'Fecha de revisión', note: 'Próxima acción o nota',
@@ -31,8 +31,8 @@
         },
         ca: {
             launcher: 'Seguiment', title: 'Seguiment del correu',
-            subtitle: 'El que has de fer i les respostes que esperes.',
-            account: 'Compte:', active: 'actius', reviewCount: 'per revisar', state: 'Estat',
+            subtitle: 'El que heu de fer i les respostes que espereu.',
+            account: 'Compte:', active: 'actius', activeOne: 'actiu', reviewCount: 'per revisar', state: 'Estat',
             responder: 'Per respondre', esperar: 'En espera', resuelto: 'Resolt',
             needReply: 'He de respondre', waitingReply: 'Espero resposta',
             due: 'Data de revisió', note: 'Acció següent o nota',
@@ -41,18 +41,18 @@
             filterActive: 'Tots els actius', filterDue: 'Per revisar avui o vençuts',
             filterWaiting: 'Esperant resposta', filterResolved: 'Resolts',
             filterAll: 'Tots, inclosos els resolts', refresh: 'Actualitza',
-            empty: 'No hi ha seguiments en aquesta vista. Obre un missatge i prem «Seguiment» per afegir-ne un.',
+            empty: 'No hi ha seguiments en aquesta vista. Obriu un missatge i premeu «Seguiment» per afegir-ne un.',
             review: 'Revisa', subject: '(Sense assumpte)', noDate: 'Sense data',
             edit: 'Edita', open: 'Obre el correu', close: 'Tanca',
             footer: 'Les dates indiquen quan cal revisar. No s’envien avisos externs.',
             saved: 'Seguiment desat.', removed: 'Seguiment retirat. El correu es conserva.',
-            removeError: 'No s’ha pogut treure del seguiment. Actualitza la llista i torna-ho a provar.',
-            unavailable: 'No s’ha pogut completar l’operació. Comprova la sessió i la connexió.',
+            removeError: 'No s’ha pogut treure del seguiment. Actualitzeu la llista i torneu-ho a provar.',
+            unavailable: 'No s’ha pogut completar l’operació. Comproveu la sessió i la connexió.',
             invalidText: 'Text no vàlid o massa llarg', required: 'Falta una dada obligatòria',
             invalidMessageId: 'Message-ID no vàlid', invalidUid: 'Identificador IMAP no vàlid',
             invalidState: 'Estat no vàlid', invalidDate: 'Data de revisió no vàlida',
             missing: 'No es troba aquest seguiment al compte actual',
-            moved: 'El missatge s’ha mogut o eliminat. Cerca’l per l’assumpte i torna a desar el seguiment.'
+            moved: 'El missatge s’ha mogut o eliminat. Cerqueu-lo per l’assumpte i torneu a desar el seguiment.'
         }
     };
     const readLanguage = () => String(document.documentElement?.lang || rl.settings?.get('clientLanguage') || 'es')

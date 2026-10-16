@@ -7,7 +7,7 @@
     <div class="modal-body">
         <div class="seguimiento-summary">
             <span><span data-bind="text: t('account')"></span> <strong data-bind="text: account"></strong></span>
-            <span><strong data-bind="text: activeCount"></strong> <span data-bind="text: t('active')"></span> · <strong data-bind="text: dueCount"></strong> <span data-bind="text: t('reviewCount')"></span></span>
+            <span><strong data-bind="text: activeCount"></strong> <span data-bind="text: t(activeCount() === 1 ? 'activeOne' : 'active')"></span> · <strong data-bind="text: dueCount"></strong> <span data-bind="text: t('reviewCount')"></span></span>
         </div>
         <p class="alert alert-error" role="alert" data-bind="visible: error, text: error"></p>
         <p class="alert alert-success" role="status" data-bind="visible: notice, text: notice"></p>

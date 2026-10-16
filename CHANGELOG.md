@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.1.11 — 2026-10-16
+
+- Review Catalan text using Softcatalà's distinction between button commands and
+  user-facing instructions. Use consistent vós forms in explanations and errors.
+- Fix the singular active-follow-up count (1 actiu / 1 activo).
+- Refresh synthetic desktop/mobile previews and verify plural-aware display.
+
 ## 0.1.10 — 2026-10-16
 
 - Fix the sidebar and message buttons showing the translation function's source

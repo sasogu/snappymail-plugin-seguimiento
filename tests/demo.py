@@ -72,6 +72,8 @@ with sync_playwright() as p:
     assert page.locator('.seguimiento-item .seguimiento-remove').inner_text() == 'Treu del seguiment'
     assert page.locator('.seguimiento-editor textarea').get_attribute('placeholder') == 'Per exemple: demanar la confirmació de dates'
     assert page.locator('.seguimiento-editor select').input_value() == 'esperar'
+    assert '1 actiu' in page.locator('.seguimiento-summary').inner_text()
+    assert '1 actius' not in page.locator('.seguimiento-summary').inner_text()
     page.get_by_role('button',name='Desa el seguiment',exact=True).click()
     page.wait_for_function("document.querySelector('.seguimiento-panel .alert-success')?.textContent === 'Seguiment desat.'")
     page.locator('.seguimiento-panel').screenshot(path=str(root / 'docs/demo-ca-mobile.png'))
